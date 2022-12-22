@@ -1,0 +1,84 @@
+#card {
+  height: 97vh;
+}
+
+#creditAmount {
+  color: green;
+  font-weight: bold;
+}
+
+#debitAmount {
+  color: red;
+  font-weight: bold;
+}
+
+progress {
+  border-radius: 7px;
+  width: 100%;
+  height: 24px;
+}
+progress::-webkit-progress-bar {
+  background-color: green;
+  border-radius: 7px;
+  border: 0px 1px green;
+  box-shadow: none;
+}
+progress::-webkit-progress-value {
+  background-color: red;
+  border-radius: 7px;
+}
+
+.roundButton {
+  position: absolute;
+  right: 5;
+  bottom: 5;
+  background-color: orangered;
+  color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  align-items: center;
+}
+
+#openExpenseForm {
+  font-size: 30px;
+  font-weight: 900;
+  margin: 4px 13px;
+}
+
+#addExpenseForm {
+  display: none;
+  position: absolute;
+  width: 95%;
+  bottom: 5;
+}
+
+#addExpense {
+  background-color: orangered;
+  color: white;
+  font-weight: bold;
+  margin: auto;
+}
+
+ul {
+  list-style: none;
+  margin: 20px;
+  padding: 0px !important;
+  overflow-y: scroll;
+}
+
+li {
+  padding: 1px 10px;
+  margin: 5px 0px !important;
+  border-radius: 10px;
+  align-items: center;
+}
+
+li div {
+  background-color: white;
+}
+
+li span {
+  font-size: 32px;
+  color: white;
+}

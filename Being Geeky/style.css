@@ -1,0 +1,199 @@
+body {
+  background-color: #f4f4f4;
+  font-family: "PT Sans", sans-serif;
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+nav ul {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  position: fixed;
+  padding: 0;
+  background-color: #333;
+}
+
+.bar{
+  display: inline;
+  width: 35px;
+  height: 5px;
+  background-color: white;
+  margin: 6px 0;
+}
+
+#hide-link{
+  display: none;
+}
+
+nav ul li {
+  list-style: none;
+  margin: 10px 0px;
+}
+
+a {
+  padding: 15px 12px;
+  text-decoration: none;
+  color: white;
+}
+nav ul li a:hover {
+  background-color: #444444;
+}
+img {
+  width: 90%;
+  border-radius: 15px;
+  margin: 0px 50px;
+}
+
+#being-geeky {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#being-geeky h1 {
+  font-size: 56px;
+}
+
+#being-geeky h2 {
+  font-size: 28px;
+}
+
+#being-geeky p {
+  margin: 0 10%;
+  font-size: 20px;
+  line-height: 1.5;
+}
+#tutorial {
+  color: white;
+  background-color: #476f70;
+  padding: 5% 10%;
+}
+
+#tutorial h1 {
+  font-size: 42px;
+}
+
+#tutorial img {
+  width: 80%;
+}
+
+#tutorial h2 {
+  font-size: 30px;
+}
+
+#tutorial p {
+  font-size: 20px;
+}
+
+.button {
+  background-color: #103063;
+  color: f4f4f4;
+  display: inline-block;
+}
+
+#video {
+  padding: 5% 15%;
+}
+
+#video h1 {
+  font-weight: 600;
+}
+#video p {
+  font-size: 20px;
+}
+
+#video img {
+  margin-top: 30px;
+}
+
+#lecture {
+  background-color: #476f70;
+  color: white;
+  padding: 5% 15%;
+}
+
+#lecture h1 {
+  font-size: 30px;
+}
+
+#lecture p {
+  font-size: 20px;
+}
+
+#coupon {
+  padding: 10%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+#coupon div {
+flex:50%;
+text-align: left;
+}
+
+
+#coupon div img {
+
+min-width: 320px;
+  max-width: 320px;
+    border-radius: 50px;
+
+}
+
+
+#coupon div p {
+  color: black;
+  font-size: 20px;
+}
+
+#coupon div a {
+  color: #143f85;
+}
+footer {
+  min-width: 800px;
+
+  background-color: #476f70;
+  color: white;
+  padding: 5% 15%;
+  text-align: left;
+}
+
+footer div {
+  display: flex;
+  justify-content: space-between;
+}
+
+footer div ul {
+  list-style: none;
+}
+
+footer div ul p {
+  font-size: large;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+}
+
+footer div ul hr {
+  color: black;
+}
+footer div ul li a {
+  padding: 0;
+}
+
+@media (max-width:800px){
+  footer{
+    display: none;
+  }
+
+#coupon div {
+flex:100%;
+}
+
+
+
+}

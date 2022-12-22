@@ -1,0 +1,30 @@
+li {
+    border-bottom: 1px solid grey;
+    cursor: pointer;
+    padding: 2px 5%;
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding-left: 0px;
+  }
+  
+  #ResponseList {
+    padding: 0px;
+  }
+  
+  #ResponseList li {
+    padding-left: 10px;
+    margin: 10px 0px;
+  }
+  
+  h2,
+  h3 {
+    color: grey;
+  }
+  
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+  }
+  

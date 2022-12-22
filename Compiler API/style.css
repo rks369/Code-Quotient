@@ -1,0 +1,60 @@
+body {
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.heading {
+  text-align: center;
+  padding: 1rem;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+.space-between p{
+    margin : 8px;;
+}
+#code {
+  width: 100%;
+  height: 50vh;
+  margin: 1rem 0rem;
+  padding: 1rem;
+  resize: none;
+}
+
+#output {
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 20vh;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+#compile{
+    background-color: #DBA50D;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex: 25%;
+  padding: 20px;
+}
+
+@media screen and (max-width: 992px) {
+  .column {
+    flex: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+}

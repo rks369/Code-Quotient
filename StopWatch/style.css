@@ -1,0 +1,79 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+}
+
+#timer {
+  color: #df6e3c;
+  font-size: 5rem;
+  text-align: center;
+  padding: 1rem;
+  margin: 2rem;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.roundButton {
+  display: inline-flex;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 2.5rem;
+  outline: 2px black solid;
+  outline-offset: -4px;
+  justify-content: center;
+  margin: 10px 20px;
+  cursor: pointer;
+  background-color: grey;
+  color: white;
+}
+
+.roundButton p {
+  font-size: 1.5rem;
+}
+.redButton {
+  background-color: rgba(255, 0, 0, 0.253);
+  color: red;
+}
+
+hr {
+  border-color: grey;
+}
+
+#lapList {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#lapList li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+}
+
+#LapList p {
+  display: inline;
+  color: grey;
+  font-size: 1.5rem;
+}
+
+.container {
+  margin: auto;
+  width: 36%;
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    width: 100%;
+  }
+}

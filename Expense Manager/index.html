@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <title>Expense Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body class="bg-light p-2">
+
+    <div class="col-lg-3 col-12 bg-white m-auto card p-2" id="card">
+
+        <p class="h3 text-center">Overview</p>
+        <p class="h6">ACCOUNTS</p>
+
+        <div class="row">
+            <p class="col-6">Credit</p>
+            <p class="col-6 green text-end" id="creditAmount">$00.00</p>
+        </div>
+        <div class="row">
+            <p class="col-6">Debit</p>
+            <p class="col-6 green text-end" id="debitAmount">$00.00</p>
+        </div>
+
+        <hr>
+        <p class="h6">MY EXPENSES</p>
+        <progress value="0" max="0" id="progressBar"></progress>
+        <p class="text-end" id="myExpenses">$00.00</p>
+        <hr>
+
+        <p class="h6">History</p>
+        <ul id="history"></ul>
+
+        <div class="roundButton">
+            <p class="h6" id="openExpenseForm">+</button>
+        </div>
+
+        <div id="addExpenseForm" class="card p-2">
+            <div class="mb-3">
+                <label for="expenseTitle" class="form-label">Expense Title</label>
+                <input type="text" class="form-control" id="expenseTitle" placeholder="Enter The Expense Title">
+            </div>
+            <div class="mb-3">
+                <label for="expenseAmount" class="form-label">Expense Amount</label>
+                <p> Use '+' for Credit || '-' for Debit</p>
+                <input type="number" class="form-control" id="expenseAmount" placeholder="Enter Number">
+            </div>
+            <p class="btn " id="addExpense">Add Expense</p>
+        </div>
+
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<script src="services.js"></script>
+<script src="createUi.js"></script>
+<script src="script.js"></script>
+
+</html>
