@@ -1,0 +1,82 @@
+body {
+  background-color: #022046;
+  color: white;
+  font-family: sans-serif;
+  padding: 1rem 5rem;
+}
+
+.heading {
+  text-align: center;
+}
+
+#searchCity {
+  border: none;
+  background-color: #022046;
+  border-bottom: 2px solid white;
+  color: white;
+  font-weight: bold;
+}
+
+#Submit {
+  background-color: #ff003e;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+}
+
+#weatherCardList {
+  list-style: none;
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: cente;
+  overflow-x: scroll;
+}
+
+.weatherItem {
+  width: 20rem;
+  display: inline-block;
+  background-color: white;
+  color: black;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.flex{
+  margin: 1rem;
+    display: flex;
+}
+.cityName{
+    display: inline;
+    font-size: 2rem;
+    color: grey;
+    margin: 0px;
+}
+.countryId{
+    background-color: orange;
+    color: white;
+    padding: 5px 5px;
+    margin-left: 15px;
+    border-radius: 0.3rem;
+}
+
+.temperature{
+  font-size: 5rem;
+  font-weight: bold;
+  margin:0px;
+}
+
+.unit{
+  font-size: 3rem;
+  font-weight: bold;
+}
+ img{
+    height: 150px;
+    width: 250px;
+}
+.weatherText{
+  color: grey;
+  font-size: 1.3rem;
+}
