@@ -1,0 +1,56 @@
+<%- include('../partials/head.ejs') %>
+    <%- include('../partials/header.ejs',{name:name}) %>
+        <div class="popup" id="popup">
+            <span class="close_btn" id="close_popup">X</span>
+            <div class="product_card" id="product_details">
+
+
+            </div>
+        </div>
+
+            <%
+            let total_bill=0;
+            cartList.forEach(cartItem=> {
+                    total_bill+=cartItem.price*cartItem.quantity
+                %>
+
+                <div class="cart_product_card box" id="<%= cartItem.pid %>">
+                    <img src=<%=cartItem.image %> class="item cart_product_img" alt="...">
+
+                    <div class="item">
+                        <p class="cart_product_title">
+                            <%= cartItem.title %>
+                        </p>
+                        <hr>
+                        <p class="cart_product_title">
+                            <%= cartItem.description %>
+                        </p>
+                        <p class="product_price" > Rs. <span id=p<%=cartItem.pid %>  ><%= cartItem.price  %></span> /- </p>
+                       
+                    </div>
+
+
+
+                    <div class="item">
+                        <p id=a<%=cartItem.pid %>  class="product_price"> Rs. <%= (cartItem.price * cartItem.quantity ) %> /- </p>
+                        <a class="button" onclick="removeFromCart(<%= cartItem.pid %>)">-</a>
+                        <span id=q<%=cartItem.pid %> quantity=<%= cartItem.quantity%> > <%= cartItem.quantity %> </span>
+
+                        
+                        <a class="button" onclick="addToCart(<%= cartItem.pid %>)">+</a>
+                        <br>
+                        <br>
+                        <br>
+                        <a class="button" onclick="">Buy Now</a>
+                        <a class="button" onclick="removeFromCart(<%= cartItem.pid %>)">Remove</a>
+                    </div>
+
+                </div>
+
+        
+        <% }); %>
+        <p class="product_price" > Rs. <span id="total_amount"> <%= (total_bill ) %> </span> /- </p>
+
+            
+            <script src="cart.js"></script>
+            <%- include('../partials/tail.ejs') %>

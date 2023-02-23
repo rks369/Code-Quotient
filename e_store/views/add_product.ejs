@@ -1,0 +1,61 @@
+<%- include('partials/head.ejs') %>
+  <div class="p-3 ">
+
+    <div class="card col-lg-6 p-2 m-auto">
+      <br>
+      <h1 class="text-center">Add Products</h1>
+      <br>
+      <div class="mb-3 row">
+        <label for="name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input type="name" class="form-control" id="name">
+          <div>
+            <span id='name_err' class="error_span"></span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="description">
+          <div>
+            <span id='description_err' class="error_span"></span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="price" class="col-sm-2 col-form-label">Price</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" id="price">
+          <div>
+            <span id='price_err' class="error_span"></span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" id="stock">
+          <div>
+            <span id='stock_err' class="error_span"></span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="image" class="col-sm-2 col-form-label">Image</label>
+        <div class="col-sm-10">
+          <input type="file" class="form-control" id="image">
+          <div>
+            <span id='file_err' class="error_span"></span>
+          </div>
+        </div>
+        <div class="text-center">
+          <span id='error_msg' class="error_span"></span>
+        </div>
+        <br>
+        <button id="addProductBtn" class="btn btn-dark m-auto">Add Product</button>
+        <br>
+      </div>
+    </div>
+    <script src="add_product.js"></script>
+    <%- include('partials/tail.ejs') %>

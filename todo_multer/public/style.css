@@ -1,0 +1,59 @@
+*{
+    font-family: "Roboto";
+  }
+  
+  #task{
+        resize: none;
+      outline: none; font-size: 3rem;
+      width: 100%;
+      font-weight:bold;
+  }
+  #taskListContainer{
+    background-color: #F2F2F2;
+  }
+  
+  .heading{
+    font-weight: 900;
+  }
+  
+  .subHeading{
+    font-size: 1.4rem;
+    font-weight: lighter;
+  }
+  
+  #taskList{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  #taskList li{ 
+     width: 100%;
+    display: block;
+    padding: 0px;
+    border-bottom: 1px solid grey;
+    margin-bottom: 20px ;
+  }
+  
+  #taskList li p{
+   margin-bottom: 10px;
+      width: 82%;
+    display: inline-block;
+  }
+  
+  .hide{
+    display: none;
+  }
+  
+  .visibel{
+    display: block;
+  }
+  .material-symbols-outlined{
+    cursor: pointer;
+  }
+
+  .task_img{
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+  }

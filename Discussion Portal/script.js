@@ -80,6 +80,7 @@ submitBtn.addEventListener("click", function () {
       id: "question" + questionCount++,
       subject: subject,
       question: question,
+      time:Date.now(),
       response: [],
       upVotes: 0,
       downVotes: 0,
@@ -108,7 +109,8 @@ function createQuestionTile(questionObj) {
   upVoteTag.classList.add("material-symbols-outlined");
   upVoteTag.style["color"] = "green";
 
-  upVoteTag.addEventListener("click", function () {
+  upVoteTag.addEventListener("click", function (event) {
+    event.stopPropagation();
     let index = questionList.indexOf(questionObj);
     upVotesCount.innerHTML = ++questionList[index]["upVotes"];
     localStorage.setItem("questions", JSON.stringify(questionList));
@@ -120,9 +122,9 @@ function createQuestionTile(questionObj) {
   downVoteTag.classList.add("material-symbols-outlined");
   downVoteTag.style["color"] = "red";
 
-  downVoteTag.addEventListener("click", function () {
+  downVoteTag.addEventListener("click", function (event) {
+    event.stopPropagation();
     let index = questionList.indexOf(questionObj);
-    console.log(index);
     downVotesCount.innerHTML = ++questionList[index]["downVotes"];
     localStorage.setItem("questions", JSON.stringify(questionList));
     createQuestionList();
@@ -134,12 +136,22 @@ function createQuestionTile(questionObj) {
   let downVotesCount = document.createElement("span");
   downVotesCount.innerHTML = questionObj["downVotes"];
 
+  let createTime = document.createElement("p");
+
+  createTime.innerHTML= getTimeMsg(questionObj["time"]);
+
+  setInterval(function (){
+    createTime.innerHTML= getTimeMsg(questionObj["time"]);
+
+  },1000);
+
   li.appendChild(subjectTag);
   li.appendChild(questionTag);
   li.appendChild(upVoteTag);
   li.appendChild(upVotesCount);
   li.appendChild(downVoteTag);
   li.appendChild(downVotesCount);
+  li.appendChild(createTime);
 
   li.addEventListener("click", function (event) {
     showQuestionDetials(questionObj);
