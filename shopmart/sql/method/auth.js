@@ -18,9 +18,9 @@ const auth = {
           async (err, data) => {
             console.log("dwedfew", err, data);
             console.log(err, data);
-            // if (err) {
-            //   callback({ err: "Error With Email" });
-            // } else
+            if (err) {
+              callback({ err: "Error With Email" });
+            } else
              {
               let q = `INSERT INTO users VALUES('${user.name}','${user.email}','${user.mobile}','${user.password}','${user.address}','${user.token}','${user.userType}','0');`;
               const result = await sql.executeQuery(q);
@@ -57,7 +57,6 @@ const auth = {
   changePassword: async (email,password,callback) => {
     console.log(email,password);
     try{
-      const result = await sql.executeQuery(`UPDATE users SET password='${password}' WHERE email = '${email}' `);
       
       sendMail(
         "Dear User",
@@ -68,10 +67,11 @@ const auth = {
         async (err, data) => {
           console.log("dwedfew", err, data);
           console.log(err, data);
-          // if (err) {
-          //   callback({ err: "Error With Email" });
-          // } else
-           {
+          if (err) {
+            callback({ err: "Error With Email" });
+          } else
+          {
+             const result = await sql.executeQuery(`UPDATE users SET password='${password}' WHERE email = '${email}' `);
         
              callback({msg:"Done"})
           }
