@@ -58,7 +58,25 @@ const auth = {
     console.log(email,password);
     try{
       const result = await sql.executeQuery(`UPDATE users SET password='${password}' WHERE email = '${email}' `);
-      callback({msg:"Done"})
+      
+      sendMail(
+        "Dear User",
+        email,  
+        "Password Changed Successfully ",
+        "Click The Link Below To Verify Your Mail",
+        `<h1>Password Chnaged</h1>`,
+        async (err, data) => {
+          console.log("dwedfew", err, data);
+          console.log(err, data);
+          // if (err) {
+          //   callback({ err: "Error With Email" });
+          // } else
+           {
+        
+             callback({msg:"Done"})
+          }
+        }
+      );
     }catch(err)
     {console.log(err)
       callback({err:err});
