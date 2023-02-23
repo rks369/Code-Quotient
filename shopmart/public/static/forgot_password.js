@@ -21,14 +21,14 @@ reset_password.addEventListener('click', (event) => {
       .then(function (result) {
         if (result['msg'] == 'error') {
           error_msg.innerHTML = 'Something Went Wrong !!!';
-        } else if(result['msg']=='done') {
+        } else if(result['msg']=='Done') {
           error_msg.innerHTML = 'Email Is Sent !Redirecting to Login !';
           setTimeout(() => {
             window.location.href = './login';
 
           }, 1000);
         }else{
-          error_msg.innerHTML=result['msg'];
+          error_msg.innerHTML=result['err'];
         }
         console.log(result);
       })

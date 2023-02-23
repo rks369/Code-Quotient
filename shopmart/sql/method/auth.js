@@ -20,8 +20,7 @@ const auth = {
             console.log(err, data);
             if (err) {
               callback({ err: "Error With Email" });
-            } else
-             {
+            } else {
               let q = `INSERT INTO users VALUES('${user.name}','${user.email}','${user.mobile}','${user.password}','${user.address}','${user.token}','${user.userType}','0');`;
               const result = await sql.executeQuery(q);
 
@@ -54,13 +53,12 @@ const auth = {
       callback({ err: err });
     }
   },
-  changePassword: async (email,password,callback) => {
-    console.log(email,password);
-    try{
-      
+  changePassword: async (email, password, callback) => {
+    console.log(email, password);
+    try {
       sendMail(
         "Dear User",
-        email,  
+        email,
         "Password Changed Successfully ",
         "Click The Link Below To Verify Your Mail",
         `<h1>Password Chnaged</h1>`,
@@ -69,20 +67,63 @@ const auth = {
           console.log(err, data);
           if (err) {
             callback({ err: "Error With Email" });
-          } else
-          {
-             const result = await sql.executeQuery(`UPDATE users SET password='${password}' WHERE email = '${email}' `);
-        
-             callback({msg:"Done"})
+          } else {
+            const result = await sql.executeQuery(
+              `UPDATE users SET password='${password}' WHERE email = '${email}' `
+            );
+
+            callback({ msg: "Done" });
           }
         }
       );
-    }catch(err)
-    {console.log(err)
-      callback({err:err});
+    } catch (err) {
+      console.log(err);
+      callback({ err: err });
     }
   },
-  forgotPassword: () => {},
+  forgotPassword: async (email, callback) => {
+    console.log(email);
+    try {
+      let token = Date.now();
+      sendMail(
+        "Dear User",
+        email,
+        "Reset Your Password",
+        "Click The Link Below To Reset Your Password",
+        `<h1>Reset Password</h1><a href="http://localhost:3000/verifyforgotPassword?token=${token}">Reset</a>`,
+        async (err, data) => {
+          if (err) {
+            callback({ err: err });
+          } else {
+            await sql.executeQuery(
+              `UPDATE users SET token = '${token}' WHERE email = '${email}'`
+            );
+            callback({ msg: "Done"});
+          }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      callback({ err: err });
+    }
+  },
+
+  verifyForgotPasswordToken: async (token, callback) => {
+    try {
+      console.log(token);
+      const users = await sql.executeQuery(`SELECT * FROM users WHERE token ='${token}' `);
+      if(users.length==0)
+      {
+        callback({err:"No Token Exists"})
+      }else
+      {
+
+        callback({ data: "Done",data: users[0]  });
+      }
+    } catch (err) {
+      console.log({ err: err });
+    }
+  },
 };
 
 module.exports = auth;

@@ -10,7 +10,8 @@ const dataSource = sqlMethods;
 
 router.route("/").get((req, res) => {
   if (req.session.is_logged_in) {
-    if (req.session.is_mail_verified) res.render("buyer/products",{name:req.session.name});
+    if (req.session.is_mail_verified)
+      res.render("buyer/products", { name: req.session.name });
     else res.redirect("/verifyMailFirst");
   } else {
     res.render("main", {
@@ -43,8 +44,8 @@ router
         req.session.is_logged_in = true;
         req.session.is_mail_verified = true;
         req.session.email = userObj.email;
-        req.session.name =msg['data']['name'];
-        req.session.uid = msg['data']['uid']
+        req.session.name = msg["data"]["name"];
+        req.session.uid = msg["data"]["uid"];
       }
       res.json(msg);
     });
@@ -128,7 +129,7 @@ router
     res.render("auth/forgot_password");
   })
   .post((req, res) => {
-    dataSource.user.forgotPassword(req.body.email, (msg) => {
+    dataSource.auth.forgotPassword(req.body.email, (msg) => {
       res.json(msg);
     });
   });
@@ -136,57 +137,47 @@ router
 router.route("/verifyforgotPassword").get((req, res) => {
   let token = req.query.token;
 
-  dataSource.user.getUserList((userList) => {
-    let index = -1;
-    for (let i = 0; i < userList.length; i++) {
-      if (userList[i].token == token) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index == -1) res.render("auth/email_verify", { msg: "Invalid Token" });
+  dataSource.auth.verifyForgotPasswordToken(token, (msg) => {
+    console.log(msg);
+    if (msg["err"])
+      res.render("auth/email_verify", { msg: msg['err'] });
     else {
-      req.session.email = userList[index].email;
-      res.render("auth/change_password", { name: userList[index].name });
+      req.session.email = msg["data"]["email"];
+      res.render("auth/change_password", { name: msg["data"]["name"] });
     }
   });
 });
 
-router.route("/products").get(authCheck,(req, res) => {
-  console.log(req.session)
-  res.render("buyer/products" ,{name:req.session.name});
-
+router.route("/products").get(authCheck, (req, res) => {
+  console.log(req.session);
+  res.render("buyer/products", { name: req.session.name });
 });
 
-router.route("/cart").get((req,res)=>{
-  dataSource.user.getCartList(req.session.uid,(msg)=>{
-    let cartList=[];
-      if(!msg['err'])
-      {
-        cartList=msg['data'];
-      }
-    res.render("buyer/cart" ,{name:req.session.name,cartList:cartList});
-  })
-})
+router.route("/cart").get((req, res) => {
+  dataSource.user.getCartList(req.session.uid, (msg) => {
+    let cartList = [];
+    if (!msg["err"]) {
+      cartList = msg["data"];
+    }
+    res.render("buyer/cart", { name: req.session.name, cartList: cartList });
+  });
+});
 
-router.route("/addToCart").post((req,res)=>{
- const uid = req.session.uid;
- const pid = req.body.id;
-  dataSource.user.addToCart(uid,pid,(msg)=>{
-    res.json(msg);
-  })
-})
-
-router.route("/removeFromCart").post((req,res)=>{
-  const uid =  req.session.uid;
+router.route("/addToCart").post((req, res) => {
+  const uid = req.session.uid;
   const pid = req.body.id;
-   dataSource.user.removeFromCart(uid,pid,(msg)=>{
-     res.json(msg);
-   })
- })
- 
+  dataSource.user.addToCart(uid, pid, (msg) => {
+    res.json(msg);
+  });
+});
 
+router.route("/removeFromCart").post((req, res) => {
+  const uid = req.session.uid;
+  const pid = req.body.id;
+  dataSource.user.removeFromCart(uid, pid, (msg) => {
+    res.json(msg);
+  });
+});
 
 router.route("/logout").get(authCheck, (req, res) => {
   req.session.destroy();
