@@ -90,4 +90,14 @@ router
     });
   });
 
+
+  router.route('/getProducts').get((req,res)=>{
+
+    let seller_id = req.session.uid;
+
+    dataSource.seller.getProductList(seller_id,(msg)=>{
+
+    })
+  });
+
 module.exports = router;

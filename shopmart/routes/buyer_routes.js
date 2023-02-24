@@ -14,7 +14,7 @@ router.route("/").get((req, res) => {
       res.render("buyer/products", { name: req.session.name });
     else res.redirect("/verifyMailFirst");
   } else {
-    res.render("auth/login");
+    res.render("main");
 
   }
 });

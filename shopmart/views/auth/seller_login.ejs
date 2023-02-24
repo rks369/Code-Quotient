@@ -1,11 +1,13 @@
 <%- include('../partials/head.ejs') %>
-<link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css">
     <%- include('../partials/seller_header.ejs',{name:null}) %>
-        <div class="p-3 ">
-
-            <div class="card col-lg-6 p-2 m-auto">
+        <div class="container">
+            <div class="left">
+                <img src="../seller_login.png">
+            </div>
+            <div class="right card">
                 <br>
-                <h1 class="text-center">Seller Login</h1>
+                <h1 class="heading">Seller Login</h1>
                 <br>
                 <div class="mb-3 row">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
@@ -26,13 +28,13 @@
                     </div>
 
                 </div>
-              
+
                 <a href='/forgotPassword'>Forgot Password?</a>
                 <div class=" text-center">
                     <span id='error_msg' class="error_span"></span>
                 </div>
                 <br>
-                <button id="loginBtn" class="btn btn-dark m-auto">Login</button>
+                <button id="loginBtn" class="primaryButton">Login</button>
                 <br>
             </div>
         </div>

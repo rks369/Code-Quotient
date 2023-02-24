@@ -1,41 +1,112 @@
-body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+  --primary-color: #06bfad;
+  --secondary-color: #f4a640;
+  --light-color: #daeef7;
 }
-a{
-    text-decoration: none;
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: serif;
 }
-nav{
-    height:  3.6rem;
-    display: flex;
-    justify-items: center;
-    align-items: center;
+.bg {
+  width: 75vw;
+  margin: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+}
+a {
+  text-decoration: none;
+}
+nav {
+  margin: 0rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 3.6rem;
 }
 
 nav ul {
-  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav_item {
+  align-items: center;
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding: 0.3rem 1.2rem;
+  font-family: "Labrada";
+}
+
+.heading {
+  text-align: center;
+  color: var(--primary-color);
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  font-family: "Satisfy";
+  font-size: 2rem;
+}
+.nav_item:hover {
+  border-radius: 25px;
+  background-color: var(--light-color);
+}
+
+.centerCard{
+  border: #06bfad solid 1px;
+  display: inline-block;
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 
 
-nav ul li {
-    display: inline;
+.container{
+  width: 90vw;
+  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;align-items: center;
 }
 
-nav ul li a{
-    padding: 1rem;
-    margin: 1rem;
-    color: green;
+.left{
+  flex:45%;
 }
 
-.band_name{
-    list-style: none;
-    color: green;
-    font-weight: bold;
-    
+.right{
+  display: inline;
+flex: 45%;
 }
 
-.band_name a{
-    color: green;
-    font-weight: bold;
+.card{
+  color: #06bfad;
+  padding: 2rem;
+  border: #06bfac5b solid 1px;
+  border-radius: 1.5rem; 
+  background-color: rgba(128, 128, 128, 0);
+}
+
+.primaryButton{
+  display: block;
+  background-color: var(--primary-color);
+  margin: auto;
+  color: white;
+  font-size: large;
+  border: #daeef7;
+  border-radius: 25px;
+  font-weight: bold;
+  font-family: serif;
+  padding: 0.3rem 1rem;
 }
