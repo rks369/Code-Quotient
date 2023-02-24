@@ -29,14 +29,13 @@ router
       userType:1,
     };
     dataSource.auth.login(userObj, function (msg) {
-      console.log(msg);
       if (!msg["err"]) {
         req.session.is_logged_in = true;
         req.session.is_mail_verified = true;
         req.session.email = userObj.email;
         req.session.name = msg["data"]["name"];
+        req.session.uid = msg["data"]["uid"];
       }
-      console.log(req.session)
       res.json(msg);
     });
   });
@@ -84,6 +83,7 @@ router
       price: req.body.price,
       stock: req.body.stock,
       image: req.file.filename,
+      uid:req.session.uid,
     };
     dataSource.product.addProduct(product, (msg) => {
       res.json(msg)

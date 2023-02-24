@@ -1,0 +1,41 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+nav{
+    height:  3.6rem;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a{
+    padding: 1rem;
+    margin: 1rem;
+    color: green;
+}
+
+.band_name{
+    list-style: none;
+    color: green;
+    font-weight: bold;
+    
+}
+
+.band_name a{
+    color: green;
+    font-weight: bold;
+}

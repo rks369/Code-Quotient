@@ -10,7 +10,7 @@ module.exports = {
     '${product.price}',
     '${product.stock}',
     '${product.image}',
-    1,0);`);
+    '${product.uid}',0);`);
 
     try {
       console.log(result);

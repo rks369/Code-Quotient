@@ -14,9 +14,8 @@ router.route("/").get((req, res) => {
       res.render("buyer/products", { name: req.session.name });
     else res.redirect("/verifyMailFirst");
   } else {
-    res.render("main", {
-      productsList: [],
-    });
+    res.render("auth/login");
+
   }
 });
 
@@ -81,31 +80,33 @@ router
 router.get("/verifyMailFirst", (req, res) => {
   res.render("auth/email_verify", { msg: "Verify Your Emial First" });
 });
-router.get("/verifyMail/:token", (req, res) => {
-  const { token } = req.params;
-  dataSource.user.getUserList((userList) => {
-    let index = -1;
-    for (let i = 0; i < userList.length; i++) {
-      if (userList[i].token == token) {
-        index = i;
-        break;
-      }
-    }
+router.get("/verifyEmail", (req, res) => {
+  let token = req.query.token;
 
-    if (index == -1) res.render("auth/email_verify", { msg: "Invalid Token" });
+  dataSource.auth.verifyToken(token, (msg) => {
+    console.log(msg);
+    if (msg["err"])
+      res.render("auth/email_verify", { msg: msg['err'] });
     else {
-      userList[index].emailVerified = true;
-      req.session.is_logged_in = true;
-      req.session.is_mail_verified = true;
-      req.session.email = userList[index].email;
-      req.session.name = userList[index].name;
-      dataSource.user.setUserList(userList, () => {
-        res.render("auth/email_verify", {
-          msg: "Email Is Verified Login To Continue!!!",
-        });
-      });
+
+      dataSource.auth.changeUserStatus(msg['data']['uid'],1,(msg)=>{
+        if(!msg['err'])
+        {
+          res.render("auth/email_verify", {
+            msg: "Email Is Verified Login To Continue!!!",
+          });
+        }else
+        {
+          res.render("auth/email_verify", {
+            msg: `Error : ${err}`,
+          });
+        }
+      })
+    
     }
   });
+
+
 });
 
 router
@@ -137,7 +138,7 @@ router
 router.route("/verifyforgotPassword").get((req, res) => {
   let token = req.query.token;
 
-  dataSource.auth.verifyForgotPasswordToken(token, (msg) => {
+  dataSource.auth.verifyToken(token, (msg) => {
     console.log(msg);
     if (msg["err"])
       res.render("auth/email_verify", { msg: msg['err'] });

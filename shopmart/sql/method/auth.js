@@ -14,7 +14,7 @@ const auth = {
           user.email,
           "Verify Your Email",
           "Click The Link Below To Verify Your Mail",
-          `<h1>Verify</h1><a href="http://localhost:3000/verifyEmail?token=${user.token} ">Verify Email</a>`,
+          `<h1>Verify</h1><a href="http://localhost:3000/verifyEmail?token=${user.token}">Verify Email</a>`,
           async (err, data) => {
             console.log("dwedfew", err, data);
             console.log(err, data);
@@ -49,6 +49,14 @@ const auth = {
           callback({ data: is_user[0] });
         else callback({ err: "Credential Does Not Match !!!" });
       }
+    } catch (err) {
+      callback({ err: err });
+    }
+  },
+  changeUserStatus: async (uid, status, callback) => {
+    try {
+      await sql.executeQuery(`UPDATE users SET status = '${status}' WHERE uid='${uid}'`)
+      callback({data:"Done"});
     } catch (err) {
       callback({ err: err });
     }
@@ -98,7 +106,7 @@ const auth = {
             await sql.executeQuery(
               `UPDATE users SET token = '${token}' WHERE email = '${email}'`
             );
-            callback({ msg: "Done"});
+            callback({ msg: "Done" });
           }
         }
       );
@@ -108,17 +116,16 @@ const auth = {
     }
   },
 
-  verifyForgotPasswordToken: async (token, callback) => {
+  verifyToken: async (token, callback) => {
     try {
       console.log(token);
-      const users = await sql.executeQuery(`SELECT * FROM users WHERE token ='${token}' `);
-      if(users.length==0)
-      {
-        callback({err:"No Token Exists"})
-      }else
-      {
-
-        callback({ data: "Done",data: users[0]  });
+      const users = await sql.executeQuery(
+        `SELECT * FROM users WHERE token ='${token}' `
+      );
+      if (users.length == 0) {
+        callback({ err: "No Token Exists" });
+      } else {
+        callback({ data: "Done", data: users[0] });
       }
     } catch (err) {
       console.log({ err: err });
