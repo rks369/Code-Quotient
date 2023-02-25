@@ -31,8 +31,9 @@ router
   });
 
 router.route("/getMoreProducts").post((req, res) => {
-  const startIndex = req.body.index;
-  dataSource.product.getProductsList(startIndex, (productsList) => {
+  const startIndex = req.body.start;
+  const count = req.body.count
+  dataSource.product.getProductsList(startIndex,count, (productsList) => {
     res.json(productsList);
   });
 });

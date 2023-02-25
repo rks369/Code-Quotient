@@ -3,14 +3,14 @@ let load_more = document.getElementById("load_more");
 
 let pop_up = document.getElementById("popup");
 let product_details = document.getElementById("product_details");
-let close_popup = document.getElementById("close_popup");
 
 let current_index = 0;
+let count = 8;
 
 let no_more_product = false;
 getProducts();
 
-load_more.addEventListener("click", function () {
+load_more.addEventListener("click", () => {
   getProducts();
 });
 
@@ -21,13 +21,15 @@ function getProducts() {
       headers: {
         "Content-type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ index: current_index }),
+      body: JSON.stringify({ start: current_index, count: count }),
     })
       .then((response) => response.json())
       .then((result) => {
-        current_index += 5;
+        current_index += count;
         if (result.length == 0) {
           load_more.innerHTML = "No More Products";
+          load_more.classList.remove("primaryButton");
+          load_more.classList.add("secondaryButton");
           no_more_product = true;
         } else {
           result.forEach((product) => {
@@ -35,19 +37,16 @@ function getProducts() {
             productUI.classList.add("product_card");
 
             productUI.innerHTML = `
-                       <img src=${product.image} class="product_img" alt="...">
-                       
-               
-                           <h5 class="product_title">
-                              ${product.title}
-                           </h5>
-                        
-                        <div>
-                                          <a class="button"  onclick="addToCart(${product.pid})"  id=${product.pid}>Add To Cart</a>
-
-                           <a class="button"  onclick="viewMore(${product.pid})"  id=${product.pid}>View More</a>
-                </div>
-                         `;
+            <img src=${product.image} class="product_img" alt="...">
+            <div>
+            <h5 class="product_title">${product.title}</h5>
+            <span class="product_price">Rs.${product.price}/-</span>
+            </div>
+            <div>
+              <button class="secondaryButton"  onclick="addToCart(${product.pid})"  id=${product.pid}>Add To Cart</button>
+              <button class="primaryButton"  onclick="viewMore(${product.pid})"  id=${product.pid}>View More</button>
+            </div>
+            <br>`;
             items.appendChild(productUI);
           });
         }
@@ -108,33 +107,33 @@ function viewMore(id) {
     body: JSON.stringify({ id: id }),
   })
     .then((response) => response.json())
-    .then((result) => {
+    .then((product) => {
       let img = document.createElement("img");
-      img.src = result.image;
+      img.src = product.image;
       img.classList.add("product_img");
-
       let div = document.createElement("div");
-      div.innerHTML = ` 
-         
-  
-             <h5 class="product_title">
-             ${result.title}
-             </h5>
-            <p class="product_desc">
-              ${result.description}
-            <p>
-            <p class="product_price">
-           Rs. ${result.price} /-
-          <p>
-           <a class="button"  onclick="addToCart(${result.pid})"  id=${result.pid}>Add To Cart</a>
-<a class="button"  onclick=""  id=${result.pid}>Buy Now</a>
-          
-  `;
+      div.classList.add("product_card_side");
+      let div1 = document.createElement("div");
+      let div2 = document.createElement("div");
+      div1.innerHTML = `
+          <div>
+              <h5 class="product_title">${product.title}</h5>
+              <h5 class="product_desc">iPhone 9</h5>
+
+              <span class="product_price">Rs.${product.price}/-</span>
+          </div>`;
+
+      div2.innerHTML = `  <div>
+      <button class="secondaryButton"  onclick="addToCart(${product.pid})"  id=${product.pid}>Add To Cart</button>
+      <button class="primaryButton"    id=${product.pid}>Buy Now</button>
+    </div>`;
+      div.append(div1);
+      div.append(div2);
       product_details.append(img);
       product_details.append(div);
     });
 }
 
-close_popup.addEventListener("click", () => {
+pop_up.addEventListener("click", () => {
   pop_up.style.display = "none";
 });
