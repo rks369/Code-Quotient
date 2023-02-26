@@ -1,16 +1,15 @@
 const express = require("express");
 const multer = require("multer");
 
-const authCheck = require('../middelware/auth_check')
+const authCheck = require("../middelware/auth_check");
 
-const jsonMethods  =require('../json/methods')
-const sqlMethods = require('../sql/methods')
+const jsonMethods = require("../json/methods");
+const sqlMethods = require("../sql/methods");
 
 const router = express.Router();
-const dataSource = sqlMethods
+const dataSource = sqlMethods;
 
 const upload = multer({ dest: "./public/uploads" });
-
 
 router.get("/", (req, res, next) => {
   res.render("auth/seller_signup");
@@ -22,11 +21,11 @@ router
     res.render("auth/seller_login");
   })
   .post((req, res) => {
-      let reqBody = req.body;
+    let reqBody = req.body;
     let userObj = {
       email: reqBody.email,
       password: reqBody.password,
-      userType:1,
+      userType: 1,
     };
     dataSource.auth.login(userObj, function (msg) {
       if (!msg["err"]) {
@@ -47,19 +46,18 @@ router
   })
   .post((req, res) => {
     let reqBody = req.body;
-    
-    let userObj = {
-      name:reqBody.name,
-      email: reqBody.email,
-      mobile:reqBody.mobile,
-      password: reqBody.password,
-      address:JSON.stringify(reqBody.address),
-      userType:1,
-      token :Date.now() 
-    }
-    dataSource.auth.signup(userObj, function (msg) {
 
-      if (msg['data'] == "done") {
+    let userObj = {
+      name: reqBody.name,
+      email: reqBody.email,
+      mobile: reqBody.mobile,
+      password: reqBody.password,
+      address: JSON.stringify(reqBody.address),
+      userType: 1,
+      token: Date.now(),
+    };
+    dataSource.auth.signup(userObj, function (msg) {
+      if (msg["data"] == "done") {
         req.session.is_logged_in = true;
         req.session.is_mail_verified = false;
         req.session.email = req.body.email;
@@ -69,13 +67,13 @@ router
     });
   });
 
-  router
+router
   .route("/addProduct")
   .get((req, res) => {
-    res.render("seller/add_product",{name:req.session.name});
+    res.render("seller/add_product", { name: req.session.name });
   })
   .post(upload.single("image"), (req, res) => {
-    console.log('ddferf')
+    console.log("ddferf");
     let product = {
       id: Date.now(),
       title: req.body.title,
@@ -83,21 +81,20 @@ router
       price: req.body.price,
       stock: req.body.stock,
       image: req.file.filename,
-      uid:req.session.uid,
+      uid: req.session.uid,
     };
     dataSource.product.addProduct(product, (msg) => {
-      res.json(msg)
+      res.json(msg);
     });
   });
 
-
-  router.route('/getProducts').get((req,res)=>{
-
-    let seller_id = req.session.uid;
-
-    dataSource.seller.getProductList(seller_id,(msg)=>{
-
-    })
+router.route("/getProductList").post((req, res) => {
+  const seller_id = req.session.uid;
+  const current_index = req.body.current_index;
+  const count = req.body.count;
+  dataSource.seller.getProductList(seller_id, current_index, count, (msg) => {
+    res.json(msg);
   });
+});
 
 module.exports = router;

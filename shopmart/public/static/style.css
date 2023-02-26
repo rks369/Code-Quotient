@@ -185,6 +185,7 @@ nav ul {
 }
 
 .product_desc {
+  padding-left: 1rem;
   font-family: sans-serif;
   overflow: hidden;
   font-size: 16px;

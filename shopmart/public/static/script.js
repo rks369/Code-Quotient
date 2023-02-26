@@ -11,32 +11,33 @@ let no_more_product = false;
 getProducts();
 
 load_more.addEventListener("click", () => {
-  getProducts();
+  if (!no_more_product) {
+    getProducts();
+  }
 });
 
 function getProducts() {
-  if (!no_more_product) {
-    fetch("/product/getMoreProducts", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({ start: current_index, count: count }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        current_index += count;
-        if (result.length == 0) {
-          load_more.innerHTML = "No More Products";
-          load_more.classList.remove("primaryButton");
-          load_more.classList.add("secondaryButton");
-          no_more_product = true;
-        } else {
-          result.forEach((product) => {
-            let productUI = document.createElement("div");
-            productUI.classList.add("product_card");
+  fetch("/product/getMoreProducts", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ start: current_index, count: count }),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      current_index += count;
+      if (result.length == 0) {
+        load_more.innerHTML = "No More Products";
+        load_more.classList.remove("primaryButton");
+        load_more.classList.add("secondaryButton");
+        no_more_product = true;
+      } else {
+        result.forEach((product) => {
+          let productUI = document.createElement("div");
+          productUI.classList.add("product_card");
 
-            productUI.innerHTML = `
+          productUI.innerHTML = `
             <img src=${product.image} class="product_img" alt="...">
             <div>
             <h5 class="product_title">${product.title}</h5>
@@ -47,11 +48,10 @@ function getProducts() {
               <button class="primaryButton"  onclick="viewMore(${product.pid})"  id=${product.pid}>View More</button>
             </div>
             <br>`;
-            items.appendChild(productUI);
-          });
-        }
-      });
-  }
+          items.appendChild(productUI);
+        });
+      }
+    });
 }
 
 function addToCart(id) {
