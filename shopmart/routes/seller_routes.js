@@ -97,4 +97,13 @@ router.route("/getProductList").post((req, res) => {
   });
 });
 
+router.route("/changeStatus").post((req, res) => {
+  const pid = req.body.pid;
+  const status = req.body.status;
+
+  dataSource.seller.changeStatus(pid,status, (msg) => {
+    res.json(msg);
+  });
+});
+
 module.exports = router;

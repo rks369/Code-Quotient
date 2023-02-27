@@ -12,6 +12,21 @@ const seller = {
         {
             callback({err:err});
         }
+    },
+    changeStatus:async(pid,status,callback)=>{
+
+
+        try{
+            await sql.executeQuery(`UPDATE products SET status=${status} WHERE pid=${pid}`);
+
+            callback({data:'Done'})
+
+        }catch(err)
+        {
+            console.log(err);
+            callback({err:err});
+        }
+
     }
 }
 

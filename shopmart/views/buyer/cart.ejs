@@ -44,7 +44,8 @@
                     <br>
                     <br>
                     <br>
-                    <a class="secondaryButton" id=r<%=cartItem.pid %> onclick="removeFromCart(<%= cartItem.pid %>)">Remove</a>
+                    <a class="secondaryButton" id=r<%=cartItem.pid %> onclick="removeFromCart(<%= cartItem.pid %>
+                            )">Remove</a>
                     <a class="primaryButton" onclick="">Buy Now</a>
                 </div>
 
@@ -52,10 +53,16 @@
 
 
             <% }); %>
-                <p class="product_price"> Rs. <span id="total_amount">
-                        <%= (total_bill ) %>
-                    </span> /- </p>
+                <div class="contain">
+                    <span class="heading">Total Amount</span>
+                    <sapn class="product_price" style="display: contents;"> Rs. <span id="total_amount">
+                            <%= (total_bill ) %>
+                        </span> /- </sapn>
+                </div>
+                
+                <div class="contain">
+                    <a class="primaryButton" onclick="">Oder Now</a>
 
-
-                <script src="cart.js"></script>
+                    </div>
+                    <script src="cart.js"></script>
                 <%- include('../partials/tail.ejs') %>

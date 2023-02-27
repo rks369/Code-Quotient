@@ -1,4 +1,3 @@
-
 const product_name = document.getElementById("name");
 const product_description = document.getElementById("description");
 const product_price = document.getElementById("price");
@@ -74,18 +73,16 @@ function getProductList() {
     headers: {
       "Content-type": "application/json;charset=utf-8",
     },
-    body: JSON.stringify({ current_index ,count}),
+    body: JSON.stringify({ current_index, count }),
   })
     .then((response) => response.json())
     .then((msg) => {
-      if(msg['err'])
-      {
-        productsList.classList.add('error_span');
-        productsList.innerHTML='Something Went Wrong !!!'
-      }else
-      {
+      if (msg["err"]) {
+        productsList.classList.add("error_span");
+        productsList.innerHTML = "Something Went Wrong !!!";
+      } else {
         current_index += count;
-        result = msg['data'];
+        result = msg["data"];
         if (result.length == 0) {
           load_more.innerHTML = "No More Products";
           load_more.classList.remove("primaryButton");
@@ -95,7 +92,7 @@ function getProductList() {
           result.forEach((product) => {
             let productUI = document.createElement("div");
             productUI.classList.add("product_card");
-  
+
             productUI.innerHTML = `
             <img src=../../${product.image} class="product_img" alt="...">
             <div>
@@ -104,13 +101,36 @@ function getProductList() {
             </div>
             <h6 class='product_desc'>${product.description}</h6>
             <div>
-              <button class="secondaryButton"  onclick=""  id=${product.pid}>Edit</button>
-              <button class="primaryButton"  onclick=""  id=${product.pid}>Disable</button>
+              <button class="secondaryButton"  onclick=""  id=${
+                product.pid
+              }>Edit</button>
+              <button class="primaryButton"  onclick="disableProduct(${
+                product.pid
+              })"  id=s${product.pid}>${
+              product.status == 1 ? "Enable" : "Disable"
+            }</button>
             </div>
             <br>`;
             productsList.appendChild(productUI);
           });
         }
       }
+    });
+}
+function disableProduct(pid) {
+  let statusTag = document.getElementById('s'+pid);
+
+  const status = statusTag.innerHTML=="Enable"?0:1;
+  fetch("/seller/changeStatus", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ pid: pid, status}),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      statusTag.innerHTML=statusTag.innerHTML=="Enable"?"Disable":"Enable";
     });
 }
