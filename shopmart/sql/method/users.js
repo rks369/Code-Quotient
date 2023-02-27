@@ -18,10 +18,49 @@ usersMethods = {
       callback({ err: err });
     }
   },
-  addToCart: async (user_id, product_id, callback) => {
+  addToCart: async (user_id,pid,callback) => {
     try {
       const cart = await sql.executeQuery(
-        `SELECT * FROM cart WHERE product_id= '${product_id}' AND user_id='${user_id}' `
+        `SELECT * FROM cart WHERE product_id='${pid}' and user_id='${user_id}' `
+      );
+
+      if (cart.length == 0) {
+        const result = await sql.executeQuery(
+          `INSERT INTO cart VALUES('${user_id}','${pid}','1')`
+        );
+        try {
+          callback({ data: "Done" });
+        } catch (err) {
+          callback({ err: "Something Went Wrong !!!" });
+        }
+      } else {
+        const result = await sql.executeQuery(
+          `UPDATE cart SET quantity = '${
+            cart[0].quantity + 1
+          }' WHERE cid='${cart[0].cid}'`
+        );
+        callback({ data: "Done" });
+      }
+    } catch (err) {
+      console.log(err)
+      callback({ err: "Something Went Wrong !!!" });
+    }
+  },
+  removeFromCart: async (user_id,pid, callback) => {
+    try {
+      const result = await sql.executeQuery(
+        `DELETE  FROM cart WHERE product_id='${pid}' and user_id='${user_id}'`
+      );
+
+      callback({ data: "Done" });
+    } catch (err) {
+      callback({ err: err });
+    }
+  },
+  increaseQuantity: async (cart_id, callback) => {
+    try {
+      const cart = await sql.executeQuery(
+        `SELECT * FROM cart WHERE cid='${cart_id}' `
       );
 
       if (cart.length == 0) {
@@ -37,7 +76,7 @@ usersMethods = {
         const result = await sql.executeQuery(
           `UPDATE cart SET quantity = '${
             cart[0].quantity + 1
-          }' WHERE   product_id= '${product_id}' AND user_id='${user_id}'     `
+          }' WHERE cid='${cart_id}'`
         );
         callback({ data: "Done" });
       }
@@ -45,31 +84,26 @@ usersMethods = {
       callback({ err: "Something Went Wrong !!!" });
     }
   },
-  removeFromCart: async (user_id, product_id, callback) => {
+  decreaseQuantity: async (cart_id, callback) => {
     try {
-
-
       const cart = await sql.executeQuery(
-        `SELECT * FROM cart WHERE product_id= '${product_id}' AND user_id='${user_id}' `
+        `SELECT * FROM cart WHERE cid='${cart_id}'`
       );
-        console.log(cart[0].quantity);
+      console.log(cart[0].quantity);
       if (cart[0].quantity != 1) {
         const result = await sql.executeQuery(
           `UPDATE cart SET quantity = '${
             cart[0].quantity - 1
-          }' WHERE   product_id= '${product_id}' AND user_id='${user_id}'     `
+          }' WHERE  cid='${cart_id}' `
         );
         callback({ data: "Done" });
-      }else
-      {
-
+      } else {
         const result = await sql.executeQuery(
-          `DELETE  FROM cart WHERE product_id= '${product_id}' AND user_id='${user_id}'`
+          `DELETE  FROM cart WHERE cid='${cart_id}'`
         );
 
         callback({ data: "Done" });
       }
-
     } catch (err) {
       callback({ err: "Something Went Wrong !!!" });
     }

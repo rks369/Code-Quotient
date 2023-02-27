@@ -7,12 +7,12 @@
 
             </div>
         </div>
-<br>
+        <br>
         <% let total_bill=0; cartList.forEach(cartItem=> {
             total_bill+=cartItem.price*cartItem.quantity
             %>
 
-            <div class="cart_product_card box" id="<%= cartItem.pid %>">
+            <div class="cart_product_card box" id="<%= cartItem.cid %>">
                 <img src=<%=cartItem.image %> class="item cart_product_img" alt="...">
 
                 <div class="item">
@@ -22,29 +22,29 @@
                     <p class="product_desc">
                         <%= cartItem.description %>
                     </p>
-                    <p class="product_price"> Rs. <span id=p<%=cartItem.pid %> ><%= cartItem.price %></span> /- </p>
+                    <p class="product_price"> Rs. <span id=p<%=cartItem.cid %> ><%= cartItem.price %></span> /- </p>
 
                 </div>
 
 
 
                 <div class="item">
-                    <p id=a<%=cartItem.pid %> class="product_price"> Rs. <%= (cartItem.price * cartItem.quantity ) %> /-
+                    <p id=a<%=cartItem.cid %> class="product_price"> Rs. <%= (cartItem.price * cartItem.quantity ) %> /-
                     </p>
                     <br>
-                    <a class="circularButton" onclick="removeFromCart(<%= cartItem.pid %>)"><span
+                    <a class="circularButton" onclick="decreaseQuantity(<%= cartItem.cid %>)"><span
                             class="material-symbols-outlined">
                             remove
                         </span></a>
-                    <span class="product_quantity" id=q<%=cartItem.pid %>  > <%= cartItem.quantity %> </span>
+                    <span class="product_quantity" id=q<%=cartItem.cid %> > <%= cartItem.quantity %> </span>
 
 
-                    <a class="circularButton" onclick="addToCart(<%= cartItem.pid %>)"><span
+                    <a class="circularButton" onclick="increaseQuantity(<%= cartItem.cid %>)"><span
                             class="material-symbols-outlined">add</span></a>
                     <br>
                     <br>
                     <br>
-                    <a class="secondaryButton" onclick="removeFromCart(<%= cartItem.pid %>)">Remove</a>
+                    <a class="secondaryButton" id=r<%=cartItem.pid %> onclick="removeFromCart(<%= cartItem.pid %>)">Remove</a>
                     <a class="primaryButton" onclick="">Buy Now</a>
                 </div>
 

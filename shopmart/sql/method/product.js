@@ -26,9 +26,9 @@ module.exports = {
   getProductsList: async (stratIndex,count, callback) => {
     
     const products = await sql.executeQuery(
-      `SELECT * FROM products WHERE pid>'${stratIndex}' AND pid<='${
-        (stratIndex + count)
-      }';`
+      `SELECT * FROM products ORDER BY pid
+      OFFSET ${stratIndex} ROWS
+      FETCH NEXT ${count} ROWS ONLY;;`
     );
     callback(products);
   },

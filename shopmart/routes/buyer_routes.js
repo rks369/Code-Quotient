@@ -15,7 +15,6 @@ router.route("/").get((req, res) => {
     else res.redirect("/verifyMailFirst");
   } else {
     res.render("main");
-
   }
 });
 
@@ -85,28 +84,21 @@ router.get("/verifyEmail", (req, res) => {
 
   dataSource.auth.verifyToken(token, (msg) => {
     console.log(msg);
-    if (msg["err"])
-      res.render("auth/email_verify", { msg: msg['err'] });
+    if (msg["err"]) res.render("auth/email_verify", { msg: msg["err"] });
     else {
-
-      dataSource.auth.changeUserStatus(msg['data']['uid'],1,(msg)=>{
-        if(!msg['err'])
-        {
+      dataSource.auth.changeUserStatus(msg["data"]["uid"], 1, (msg) => {
+        if (!msg["err"]) {
           res.render("auth/email_verify", {
             msg: "Email Is Verified Login To Continue!!!",
           });
-        }else
-        {
+        } else {
           res.render("auth/email_verify", {
             msg: `Error : ${err}`,
           });
         }
-      })
-    
+      });
     }
   });
-
-
 });
 
 router
@@ -140,8 +132,7 @@ router.route("/verifyforgotPassword").get((req, res) => {
 
   dataSource.auth.verifyToken(token, (msg) => {
     console.log(msg);
-    if (msg["err"])
-      res.render("auth/email_verify", { msg: msg['err'] });
+    if (msg["err"]) res.render("auth/email_verify", { msg: msg["err"] });
     else {
       req.session.email = msg["data"]["email"];
       res.render("auth/change_password", { name: msg["data"]["name"] });
@@ -165,17 +156,31 @@ router.route("/cart").get((req, res) => {
 });
 
 router.route("/addToCart").post((req, res) => {
+  const pid = req.body.pid;
   const uid = req.session.uid;
-  const pid = req.body.id;
   dataSource.user.addToCart(uid, pid, (msg) => {
     res.json(msg);
   });
 });
 
 router.route("/removeFromCart").post((req, res) => {
+  const pid = req.body.pid;
   const uid = req.session.uid;
-  const pid = req.body.id;
   dataSource.user.removeFromCart(uid, pid, (msg) => {
+    res.json(msg);
+  });
+});
+
+router.route("/increaseQuantity").post((req, res) => {
+  const cart_id = req.body.cart_id;
+  dataSource.user.increaseQuantity(cart_id, (msg) => {
+    res.json(msg);
+  });
+});
+
+router.route("/decreaseQuantity").post((req, res) => {
+  const cart_id = req.body.cart_id;
+  dataSource.user.decreaseQuantity(cart_id, (msg) => {
     res.json(msg);
   });
 });

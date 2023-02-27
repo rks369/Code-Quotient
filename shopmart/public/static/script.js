@@ -63,7 +63,7 @@ function addToCart(id) {
       headers: {
         "Content-type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ pid: id }),
     })
       .then((response) => response.json())
       .then((result) => {
@@ -80,7 +80,7 @@ function addToCart(id) {
       headers: {
         "Content-type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ pid: id }),
     })
       .then((response) => response.json())
       .then((result) => {
