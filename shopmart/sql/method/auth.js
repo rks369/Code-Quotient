@@ -76,6 +76,7 @@ const auth = {
           if (err) {
             callback({ err: "Error With Email" });
           } else {
+            // UPDATE users SET password='Ritesh123' WHERE uid='1'
             const result = await sql.executeQuery(
               `UPDATE users SET password='${password}' WHERE email = '${email}' `
             );

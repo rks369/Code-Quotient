@@ -155,6 +155,12 @@ router.route("/cart").get((req, res) => {
   });
 });
 
+router.route("/cartItems").get((req, res) => {
+  dataSource.user.getCartList(req.session.uid, (msg) => {
+    res.json(msg);
+  });
+});
+
 router.route("/addToCart").post((req, res) => {
   const pid = req.body.pid;
   const uid = req.session.uid;

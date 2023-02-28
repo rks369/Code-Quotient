@@ -101,7 +101,23 @@ router.route("/changeStatus").post((req, res) => {
   const pid = req.body.pid;
   const status = req.body.status;
 
-  dataSource.seller.changeStatus(pid,status, (msg) => {
+  dataSource.seller.changeStatus(pid, status, (msg) => {
+    res.json(msg);
+  });
+});
+
+router.route("/editProduct").post(upload.single("image"),(req, res) => {
+let img =req.file!=null?req.file.filename:req.body.image_url;
+  let product = {
+    pid: req.body.pid,
+    title: req.body.title,
+    description: req.body.description,
+    stock: req.body.stock,
+    price: req.body.price,
+    image:img ,
+  };
+  console.log(product,req.file!=null);
+  dataSource.seller.editProduct(product, (msg) => {
     res.json(msg);
   });
 });

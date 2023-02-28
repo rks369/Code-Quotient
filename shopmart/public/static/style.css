@@ -193,6 +193,11 @@ nav ul {
   height: 72px;
   max-height: 72px;
 }
+.product_stock{
+  color: var(--primary-color);
+  font-family: 'Labrada';
+  font-weight: bold;
+}
 
 .product_quantity{
   color: var(--primary-color);
@@ -313,3 +318,5 @@ nav ul {
   text-align: center;
   padding: 1rem;
 }
+
+

@@ -5,7 +5,7 @@ const sql = require("../sql_config");
 module.exports = {
   addProduct: async (product, callback) => {
     const result =
-      await sql.executeQuery(`use shopcart INSERT INTO products VALUES('${product.title}',
+      await sql.executeQuery(`INSERT INTO products VALUES('${product.title}',
     '${product.description}',
     '${product.price}',
     '${product.stock}',
@@ -28,7 +28,7 @@ module.exports = {
     const products = await sql.executeQuery(
       `SELECT * FROM products where status=0 ORDER BY pid
       OFFSET ${stratIndex} ROWS
-      FETCH NEXT ${count} ROWS ONLY;;`
+      FETCH NEXT ${count} ROWS ONLY;`
     );
     callback(products);
   },

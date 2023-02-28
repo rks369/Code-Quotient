@@ -9,7 +9,11 @@ let productsList = document.getElementById("productsList");
 const err_msg = document.getElementById("error_msg");
 
 let addProductBtn = document.getElementById("addProductBtn");
+let add_product = document.getElementById("add_product");
+let add_product_popup = document.getElementById("add_product_popup");
 
+let popup_heading = document.getElementById("popup_heading");
+let popup_card = document.getElementById("popup_card");
 let current_index = 0;
 const count = 8;
 let no_more_product = false;
@@ -21,6 +25,26 @@ load_more.addEventListener("click", () => {
     getProductList();
   }
 });
+
+add_product.addEventListener("click", () => {
+  popup_heading.innerHTML = "Add Product";
+  addProductBtn.innerHTML = "Add Product";
+  add_product_popup.style["display"] = "block";
+});
+
+popup_card.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+add_product_popup.addEventListener("click", () => {
+  add_product_popup.style["display"] = "none";
+  product_name.value = "";
+  product_description.value = "";
+  product_price.value = "";
+  product_stock.value = "";
+  product_image.value = "";
+});
+
 addProductBtn.addEventListener("click", () => {
   err_msg.innerHTML = "";
 
@@ -38,8 +62,6 @@ addProductBtn.addEventListener("click", () => {
     err_msg.innerHTML = "Please Enter A Valid Price";
   } else if (stock.length < 1) {
     err_msg.innerHTML = "Please Enter A Valid Stock";
-  } else if (product_image.files[0] == null) {
-    err_msg.innerHTML = "Please Select A File";
   } else {
     let formData = new FormData();
     formData.append("title", title);
@@ -47,20 +69,45 @@ addProductBtn.addEventListener("click", () => {
     formData.append("price", price);
     formData.append("stock", stock);
     formData.append("image", image);
-    fetch("/seller/addProduct", { method: "POST", body: formData })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result["data"] == "done") {
-          product_name.value = "";
-          product_description.value = "";
-          product_price.value = "";
-          product_stock.value = "";
-          product_image.value = "";
-        } else {
-          err_msg.innerHTML = result["err"];
-        }
-      });
+    if (addProductBtn.innerHTML == "Add product") {
+      if (product_image.files[0] == null) {
+        err_msg.innerHTML = "Please Select A File";
+      } else {
+        fetch("/seller/addProduct", { method: "POST", body: formData })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            if (result["data"] == "done") {
+              product_name.value = "";
+              product_description.value = "";
+              product_price.value = "";
+              product_stock.value = "";
+              product_image.value = "";
+            } else {
+              err_msg.innerHTML = result["err"];
+            }
+          });
+      }
+    } else {
+      formData.append("pid", product_name.key);
+      formData.append("image_url", product_image.key);
+      fetch("/seller/editProduct", { method: "POST", body: formData })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          if (result["data"] == "Done") {
+            
+            product_name.value = "";
+            product_description.value = "";
+            product_price.value = "";
+            product_stock.value = "";
+            product_image.value = "";
+            add_product_popup.style["display"] = "none";
+          } else {
+            err_msg.innerHTML = result["err"];
+          }
+        });
+    }
   }
 });
 
@@ -90,47 +137,90 @@ function getProductList() {
           no_more_product = true;
         } else {
           result.forEach((product) => {
-            let productUI = document.createElement("div");
-            productUI.classList.add("product_card");
-
-            productUI.innerHTML = `
-            <img src=../../${product.image} class="product_img" alt="...">
-            <div>
-            <h5 class="product_title">${product.title}</h5>
-            <span class="product_price">Rs.${product.price}/-</span>
-            </div>
-            <h6 class='product_desc'>${product.description}</h6>
-            <div>
-              <button class="secondaryButton"  onclick=""  id=${
-                product.pid
-              }>Edit</button>
-              <button class="primaryButton"  onclick="disableProduct(${
-                product.pid
-              })"  id=s${product.pid}>${
-              product.status == 1 ? "Enable" : "Disable"
-            }</button>
-            </div>
-            <br>`;
-            productsList.appendChild(productUI);
+            createProductUI(product);
           });
         }
       }
     });
 }
-function disableProduct(pid) {
-  let statusTag = document.getElementById('s'+pid);
 
-  const status = statusTag.innerHTML=="Enable"?0:1;
-  fetch("/seller/changeStatus", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({ pid: pid, status}),
-  })
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      statusTag.innerHTML=statusTag.innerHTML=="Enable"?"Disable":"Enable";
-    });
+function createProductUI(product) {
+  const productUI = document.createElement("div");
+  productUI.classList.add("product_card");
+
+  const productImg = document.createElement("img");
+  productImg.classList.add("product_img");
+  productImg.src = "../" + product.image;
+
+  const div1 = document.createElement("div");
+
+  const title = document.createElement("p");
+  title.classList.add("product_title");
+  title.innerHTML = product.title;
+  div1.appendChild(title);
+
+  const price = document.createElement("p");
+  price.classList.add("product_price");
+  price.innerHTML = `Rs. ${product.price}/-`;
+  div1.appendChild(price);
+
+  const description = document.createElement("p");
+  description.classList.add("product_desc");
+  description.innerHTML = product.description;
+
+  const stock = document.createElement("p");
+  stock.classList.add("product_stock");
+  stock.innerHTML = product.stock;
+
+  const div2 = document.createElement("div");
+
+  const edit = document.createElement("button");
+  edit.classList.add("secondaryButton");
+  edit.innerHTML = "Edit";
+  div2.appendChild(edit);
+
+  edit.addEventListener("click", () => {
+    popup_heading.innerHTML = "Edit Product";
+    addProductBtn.innerHTML = "Update Details";
+    add_product_popup.style["display"] = "block";
+
+    product_name.key = product.pid;
+    product_name.value = product.title;
+    product_description.value = product.description;
+    product_price.value = product.price;
+    product_stock.value = product.stock;
+    product_image.key = product.image;
+  });
+
+  const status = document.createElement("button");
+  status.classList.add("primaryButton");
+  status.innerHTML = product.status == 1 ? "Enable" : "Disable";
+  div2.appendChild(status);
+
+  status.addEventListener("click", () => {
+    status.disabled = true;
+    const statusValue = status.innerHTML == "Enable" ? 0 : 1;
+    fetch("/seller/changeStatus", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ pid: product.pid, status: statusValue }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        status.disabled = false;
+        status.innerHTML = status.innerHTML == "Enable" ? "Disable" : "Enable";
+      });
+  });
+
+  productUI.appendChild(productImg);
+  productUI.appendChild(div1);
+  productUI.appendChild(description);
+  productUI.appendChild(stock);
+  productUI.appendChild(div2);
+  productUI.appendChild(document.createElement("br"));
+
+  productsList.appendChild(productUI);
 }
