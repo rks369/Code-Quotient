@@ -99,6 +99,28 @@ nav ul {
   display: inline;
   flex: 45%;
 }
+.cartBox{
+  width: 100vw;
+  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+ 
+  margin-top: 3rem;
+}
+
+#cart_items{
+  flex: 2;
+}
+
+#oderdetails{
+  flex: 1;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+}
 
 .text-end {
   text-align: end;
