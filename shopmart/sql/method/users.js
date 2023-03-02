@@ -18,7 +18,7 @@ usersMethods = {
       callback({ err: err });
     }
   },
-  addToCart: async (user_id,pid,callback) => {
+  addToCart: async (user_id, pid, callback) => {
     try {
       const cart = await sql.executeQuery(
         `SELECT * FROM cart WHERE product_id='${pid}' and user_id='${user_id}' `
@@ -35,18 +35,18 @@ usersMethods = {
         }
       } else {
         const result = await sql.executeQuery(
-          `UPDATE cart SET quantity = '${
-            cart[0].quantity + 1
-          }' WHERE cid='${cart[0].cid}'`
+          `UPDATE cart SET quantity = '${cart[0].quantity + 1}' WHERE cid='${
+            cart[0].cid
+          }'`
         );
         callback({ data: "Done" });
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       callback({ err: "Something Went Wrong !!!" });
     }
   },
-  removeFromCart: async (user_id,pid, callback) => {
+  removeFromCart: async (user_id, pid, callback) => {
     try {
       const result = await sql.executeQuery(
         `DELETE  FROM cart WHERE product_id='${pid}' and user_id='${user_id}'`
@@ -108,6 +108,19 @@ usersMethods = {
       callback({ err: "Something Went Wrong !!!" });
     }
   },
+
+  orderProduct: async (user_id,cart_id_list, billing_address, callback) => {
+    try{
+     const result= await sql.executeTransaction(user_id,cart_id_list, billing_address)
+      callback({data:result})
+    }catch(err)
+    {
+      console.log(err)
+      callback({err:err});
+    }
+  },
+
+
 };
 
 module.exports = usersMethods;

@@ -142,4 +142,4 @@ SELECT * FROM Orders JOIN address ON aid = billing_address
 CREATE TABLE orders (order_id INT PRIMARY KEY IDENTITY(1,1),
 					user_id INT REFERENCES users(uid) ,
 					billing_address NVARCHAR(max) check(ISJSON(billing_address)=1),
-					order_time datetime not null default(current_timestamp))
+					order_time datetime not null default(current_timestamp)) 

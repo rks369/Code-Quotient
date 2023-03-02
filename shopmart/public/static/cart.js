@@ -1,8 +1,10 @@
 const cart_items = document.getElementById("cart_items");
 const total_amount_tag = document.getElementById("total_amount");
+const billing_address = document.getElementById("billing_address");
+const Order_now = document.getElementById('Order_now');
 
 let total_amount = 0;
-
+let cart_id_list=[];
 getCartList();
 function getCartList() {
   fetch("cartItems", { method: "GET" })
@@ -12,11 +14,31 @@ function getCartList() {
         cart_items.innerHTML = result["err"];
       } else {
         result["data"].forEach((cartItem) => {
+          cart_id_list.push(cartItem.cid);
           createCartItem(cartItem);
         });
       }
     });
 }
+
+Order_now.addEventListener('click',()=>{
+  let reqObj={
+    cart_id_list:cart_id_list,
+    address:{ address: billing_address.value.trim() }
+  }
+  console.log(reqObj);
+  fetch("/order", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(reqObj),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+    });
+})
 
 function createCartItem(cartItem) {
   total_amount += cartItem.quantity * cartItem.price;
@@ -66,13 +88,13 @@ function createCartItem(cartItem) {
     '<span class="material-symbols-outlined"> remove</span>';
   div2.appendChild(decreaseQuantity);
 
-  decreaseQuantity.addEventListener('click',()=>{
+  decreaseQuantity.addEventListener("click", () => {
     fetch("/decreaseQuantity", {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ cart_id:cartItem.cid }),
+      body: JSON.stringify({ cart_id: cartItem.cid }),
     })
       .then((response) => response.json())
       .then((result) => {
@@ -80,9 +102,8 @@ function createCartItem(cartItem) {
           alert("Something Went Wrong");
         } else {
           cartItem.quantity--;
-          if(cartItem.quantity==0)
-          {
-            cart_items.removeChild(cartItemBox)
+          if (cartItem.quantity == 0) {
+            cart_items.removeChild(cartItemBox);
           }
           quantity.innerHTML = cartItem.quantity;
           total_amount -= cartItem.price;
@@ -90,7 +111,7 @@ function createCartItem(cartItem) {
           total_amount_tag.innerHTML = `Rs.${total_amount}/-`;
         }
       });
-  })
+  });
 
   const quantity = document.createElement("span");
   quantity.classList.add("product_quantity");
@@ -133,28 +154,27 @@ function createCartItem(cartItem) {
   removeItem.innerHTML = "Remove";
   div2.appendChild(removeItem);
 
-  removeItem.addEventListener('click',()=>{
+  removeItem.addEventListener("click", () => {
     fetch("/removeFromCart", {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ pid :cartItem.pid }),
+      body: JSON.stringify({ pid: cartItem.pid }),
     })
       .then((response) => response.json())
       .then((result) => {
         if (result["err"]) {
           alert("Something Went Wrong");
         } else {
-         
-            cart_items.removeChild(cartItemBox)
-          
-          total_amount -= cartItem.price*cartItem.quantity;
-        
+          cart_items.removeChild(cartItemBox);
+
+          total_amount -= cartItem.price * cartItem.quantity;
+
           total_amount_tag.innerHTML = `Rs.${total_amount}/-`;
         }
       });
-  })
+  });
 
   const buyNow = document.createElement("a");
   buyNow.classList.add("primaryButton");
@@ -162,7 +182,22 @@ function createCartItem(cartItem) {
   div2.appendChild(buyNow);
 
   buyNow.addEventListener("click", () => {
-    console.log(cartItem);
+    let reqObj={
+      cart_id_list:[cartItem.cid],
+      address:{ address: billing_address.value.trim() }
+    }
+    console.log(reqObj);
+    fetch("/order", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(reqObj),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      });
   });
 
   cartItemBox.appendChild(productsImg);
